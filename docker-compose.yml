@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  db:
+    container_name: db
+    restart: always
+    image: db
+    build:
+      context: ./db
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    networks:
+      - network
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+
+  graphql:
+    container_name: graphql
+    restart: always
+    image: us-west2-docker.pkg.dev/sinuous-ally-391423/org-app-docker-repo/graphql:latest
+    build:
+      context: ./graphql
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    networks:
+      - network
+    ports:
+      - 5433:5433
+    expose:
+      - 5433
+
+networks:
+  network:
+
+volumes:
+  db:

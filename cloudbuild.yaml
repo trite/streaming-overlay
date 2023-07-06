@@ -1,0 +1,12 @@
+steps:
+  - name: 'docker/compose'
+    args: ['build']
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-west2-docker.pkg.dev/sinuous-ally-391423/org-app-docker-repo/graphql:latest'
+
+images:
+  [
+    'us-west2-docker.pkg.dev/sinuous-ally-391423/org-app-docker-repo/graphql:latest',
+  ]

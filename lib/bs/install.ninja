@@ -1,0 +1,38 @@
+rescript = 1
+rule cp
+  command = cp $i $out
+rule touch
+ command = touch $out
+o App.cmi : cp ../bs/src/App.cmi
+o App.cmj : cp ../bs/src/App.cmj
+o App.cmt : cp ../bs/src/App.cmt
+o App.res : cp ../../src/App.res
+o App.resi : cp ../../src/App.resi
+o App.cmti : cp ../bs/src/App.cmti
+o Main.cmi : cp ../bs/src/Main.cmi
+o Main.cmj : cp ../bs/src/Main.cmj
+o Main.cmt : cp ../bs/src/Main.cmt
+o Main.res : cp ../../src/Main.res
+o Button.cmi : cp ../bs/src/Button.cmi
+o Button.cmj : cp ../bs/src/Button.cmj
+o Button.cmt : cp ../bs/src/Button.cmt
+o Button.res : cp ../../src/Button.res
+o Button.resi : cp ../../src/Button.resi
+o Button.cmti : cp ../bs/src/Button.cmti
+o HtmlTags.cmi : cp ../bs/src/HtmlTags.cmi
+o HtmlTags.cmj : cp ../bs/src/HtmlTags.cmj
+o HtmlTags.cmt : cp ../bs/src/HtmlTags.cmt
+o HtmlTags.res : cp ../../src/HtmlTags.res
+o RelayEnv.cmi : cp ../bs/src/RelayEnv.cmi
+o RelayEnv.cmj : cp ../bs/src/RelayEnv.cmj
+o RelayEnv.cmt : cp ../bs/src/RelayEnv.cmt
+o RelayEnv.res : cp ../../src/RelayEnv.res
+o GraphQLWs.cmi : cp ../bs/src/GraphQLWs.cmi
+o GraphQLWs.cmj : cp ../bs/src/GraphQLWs.cmj
+o GraphQLWs.cmt : cp ../bs/src/GraphQLWs.cmt
+o GraphQLWs.res : cp ../../src/GraphQLWs.res
+o Postgrest.cmi : cp ../bs/src/Postgrest.cmi
+o Postgrest.cmj : cp ../bs/src/Postgrest.cmj
+o Postgrest.cmt : cp ../bs/src/Postgrest.cmt
+o Postgrest.res : cp ../../src/Postgrest.res
+build install.stamp : touch App.cmi App.cmj Main.cmi Main.cmj Button.cmi Button.cmj HtmlTags.cmi HtmlTags.cmj RelayEnv.cmi RelayEnv.cmj GraphQLWs.cmi GraphQLWs.cmj Postgrest.cmi Postgrest.cmj 

@@ -1,0 +1,1 @@
+{ "dirs" : [ "src" , "src/assets" , "src/__generated__" ] , "pkgs" : [ [ "@glennsl/rescript-fetch" , "/home/trite/git/organizational-app/node_modules/@glennsl/rescript-fetch" ] , [ "@rescript/react" , "/home/trite/git/organizational-app/node_modules/@rescript/react" ] , [ "rescript-relay" , "/home/trite/git/organizational-app/node_modules/rescript-relay" ] ] , "generated" : [] }
