@@ -1,4 +1,4 @@
-\connect organizational-app;
+\connect streaming-overlay;
 
 INSERT INTO public.task(to_do)
 VALUES

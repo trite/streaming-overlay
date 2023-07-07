@@ -1,4 +1,4 @@
-\connect organizational-app;
+\connect streaming-overlay;
 
 SET client_encoding = 'LATIN1';
 

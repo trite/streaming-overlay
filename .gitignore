@@ -1,6 +1,7 @@
 ### Db ###
 data
 
+.env
 
 ### Vite/TS template ###
 
