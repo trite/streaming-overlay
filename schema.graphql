@@ -4,74 +4,121 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
-"""All input for the create `Thing` mutation."""
-input CreateThingInput {
+"""All input for the create `RelationPrerequisite` mutation."""
+input CreateRelationPrerequisiteInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `Thing` to be created by this mutation."""
-  thing: ThingInput!
+  """The `RelationPrerequisite` to be created by this mutation."""
+  relationPrerequisite: RelationPrerequisiteInput!
 }
 
-"""The output of our create `Thing` mutation."""
-type CreateThingPayload {
+"""The output of our create `RelationPrerequisite` mutation."""
+type CreateRelationPrerequisitePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Thing` that was created by this mutation."""
-  thing: Thing
+  """The `RelationPrerequisite` that was created by this mutation."""
+  relationPrerequisite: RelationPrerequisite
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Thing`. May be used by Relay 1."""
-  thingEdge(
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ThingsEdge
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByPrerequisiteTaskId: Task
+
+  """An edge for our `RelationPrerequisite`. May be used by Relay 1."""
+  relationPrerequisiteEdge(
+    """The method to use when ordering `RelationPrerequisite`."""
+    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationPrerequisitesEdge
 }
 
-"""All input for the create `User` mutation."""
-input CreateUserInput {
+"""All input for the create `RelationSubtask` mutation."""
+input CreateRelationSubtaskInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `User` to be created by this mutation."""
-  user: UserInput!
+  """The `RelationSubtask` to be created by this mutation."""
+  relationSubtask: RelationSubtaskInput!
 }
 
-"""The output of our create `User` mutation."""
-type CreateUserPayload {
+"""The output of our create `RelationSubtask` mutation."""
+type CreateRelationSubtaskPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `User` that was created by this mutation."""
-  user: User
+  """The `RelationSubtask` that was created by this mutation."""
+  relationSubtask: RelationSubtask
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskBySubtaskTaskId: Task
+
+  """An edge for our `RelationSubtask`. May be used by Relay 1."""
+  relationSubtaskEdge(
+    """The method to use when ordering `RelationSubtask`."""
+    orderBy: [RelationSubtasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationSubtasksEdge
+}
+
+"""All input for the create `Task` mutation."""
+input CreateTaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Task` to be created by this mutation."""
+  task: TaskInput!
+}
+
+"""The output of our create `Task` mutation."""
+type CreateTaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Task` that was created by this mutation."""
+  task: Task
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Task`. May be used by Relay 1."""
+  taskEdge(
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TasksEdge
 }
 
 """A location in a connection that can be used for resuming pagination."""
@@ -83,8 +130,8 @@ A point in time as described by the [ISO
 """
 scalar Datetime
 
-"""All input for the `deleteThingById` mutation."""
-input DeleteThingByIdInput {
+"""All input for the `deleteRelationPrerequisiteById` mutation."""
+input DeleteRelationPrerequisiteByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -93,8 +140,8 @@ input DeleteThingByIdInput {
   id: Int!
 }
 
-"""All input for the `deleteThing` mutation."""
-input DeleteThingInput {
+"""All input for the `deleteRelationPrerequisite` mutation."""
+input DeleteRelationPrerequisiteInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -102,37 +149,43 @@ input DeleteThingInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `Thing` to be deleted.
+  The globally unique `ID` which will identify a single `RelationPrerequisite` to be deleted.
   """
   nodeId: ID!
 }
 
-"""The output of our delete `Thing` mutation."""
-type DeleteThingPayload {
+"""The output of our delete `RelationPrerequisite` mutation."""
+type DeleteRelationPrerequisitePayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `Thing` that was deleted by this mutation."""
-  thing: Thing
-  deletedThingId: ID
+  """The `RelationPrerequisite` that was deleted by this mutation."""
+  relationPrerequisite: RelationPrerequisite
+  deletedRelationPrerequisiteId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `Thing`. May be used by Relay 1."""
-  thingEdge(
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ThingsEdge
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByPrerequisiteTaskId: Task
+
+  """An edge for our `RelationPrerequisite`. May be used by Relay 1."""
+  relationPrerequisiteEdge(
+    """The method to use when ordering `RelationPrerequisite`."""
+    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationPrerequisitesEdge
 }
 
-"""All input for the `deleteUserById` mutation."""
-input DeleteUserByIdInput {
+"""All input for the `deleteRelationSubtaskById` mutation."""
+input DeleteRelationSubtaskByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -141,8 +194,8 @@ input DeleteUserByIdInput {
   id: Int!
 }
 
-"""All input for the `deleteUser` mutation."""
-input DeleteUserInput {
+"""All input for the `deleteRelationSubtask` mutation."""
+input DeleteRelationSubtaskInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -150,118 +203,218 @@ input DeleteUserInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `User` to be deleted.
+  The globally unique `ID` which will identify a single `RelationSubtask` to be deleted.
   """
   nodeId: ID!
 }
 
-"""The output of our delete `User` mutation."""
-type DeleteUserPayload {
+"""The output of our delete `RelationSubtask` mutation."""
+type DeleteRelationSubtaskPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `User` that was deleted by this mutation."""
-  user: User
-  deletedUserId: ID
+  """The `RelationSubtask` that was deleted by this mutation."""
+  relationSubtask: RelationSubtask
+  deletedRelationSubtaskId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskBySubtaskTaskId: Task
+
+  """An edge for our `RelationSubtask`. May be used by Relay 1."""
+  relationSubtaskEdge(
+    """The method to use when ordering `RelationSubtask`."""
+    orderBy: [RelationSubtasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationSubtasksEdge
+}
+
+"""All input for the `deleteTaskById` mutation."""
+input DeleteTaskByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteTask` mutation."""
+input DeleteTaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Task` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Task` mutation."""
+type DeleteTaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Task` that was deleted by this mutation."""
+  task: Task
+  deletedTaskId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Task`. May be used by Relay 1."""
+  taskEdge(
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TasksEdge
 }
 
 """
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  """Creates a single `Thing`."""
-  createThing(
+  """Creates a single `RelationPrerequisite`."""
+  createRelationPrerequisite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateThingInput!
-  ): CreateThingPayload
+    input: CreateRelationPrerequisiteInput!
+  ): CreateRelationPrerequisitePayload
 
-  """Creates a single `User`."""
-  createUser(
+  """Creates a single `RelationSubtask`."""
+  createRelationSubtask(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateUserInput!
-  ): CreateUserPayload
+    input: CreateRelationSubtaskInput!
+  ): CreateRelationSubtaskPayload
 
-  """Updates a single `Thing` using its globally unique id and a patch."""
-  updateThing(
+  """Creates a single `Task`."""
+  createTask(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateThingInput!
-  ): UpdateThingPayload
+    input: CreateTaskInput!
+  ): CreateTaskPayload
 
-  """Updates a single `Thing` using a unique key and a patch."""
-  updateThingById(
+  """
+  Updates a single `RelationPrerequisite` using its globally unique id and a patch.
+  """
+  updateRelationPrerequisite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateThingByIdInput!
-  ): UpdateThingPayload
+    input: UpdateRelationPrerequisiteInput!
+  ): UpdateRelationPrerequisitePayload
 
-  """Updates a single `User` using its globally unique id and a patch."""
-  updateUser(
+  """
+  Updates a single `RelationPrerequisite` using a unique key and a patch.
+  """
+  updateRelationPrerequisiteById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateUserInput!
-  ): UpdateUserPayload
+    input: UpdateRelationPrerequisiteByIdInput!
+  ): UpdateRelationPrerequisitePayload
 
-  """Updates a single `User` using a unique key and a patch."""
-  updateUserById(
+  """
+  Updates a single `RelationSubtask` using its globally unique id and a patch.
+  """
+  updateRelationSubtask(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateUserByIdInput!
-  ): UpdateUserPayload
+    input: UpdateRelationSubtaskInput!
+  ): UpdateRelationSubtaskPayload
 
-  """Deletes a single `Thing` using its globally unique id."""
-  deleteThing(
+  """Updates a single `RelationSubtask` using a unique key and a patch."""
+  updateRelationSubtaskById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteThingInput!
-  ): DeleteThingPayload
+    input: UpdateRelationSubtaskByIdInput!
+  ): UpdateRelationSubtaskPayload
 
-  """Deletes a single `Thing` using a unique key."""
-  deleteThingById(
+  """Updates a single `Task` using its globally unique id and a patch."""
+  updateTask(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteThingByIdInput!
-  ): DeleteThingPayload
+    input: UpdateTaskInput!
+  ): UpdateTaskPayload
 
-  """Deletes a single `User` using its globally unique id."""
-  deleteUser(
+  """Updates a single `Task` using a unique key and a patch."""
+  updateTaskById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteUserInput!
-  ): DeleteUserPayload
+    input: UpdateTaskByIdInput!
+  ): UpdateTaskPayload
 
-  """Deletes a single `User` using a unique key."""
-  deleteUserById(
+  """Deletes a single `RelationPrerequisite` using its globally unique id."""
+  deleteRelationPrerequisite(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteUserByIdInput!
-  ): DeleteUserPayload
+    input: DeleteRelationPrerequisiteInput!
+  ): DeleteRelationPrerequisitePayload
+
+  """Deletes a single `RelationPrerequisite` using a unique key."""
+  deleteRelationPrerequisiteById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRelationPrerequisiteByIdInput!
+  ): DeleteRelationPrerequisitePayload
+
+  """Deletes a single `RelationSubtask` using its globally unique id."""
+  deleteRelationSubtask(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRelationSubtaskInput!
+  ): DeleteRelationSubtaskPayload
+
+  """Deletes a single `RelationSubtask` using a unique key."""
+  deleteRelationSubtaskById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRelationSubtaskByIdInput!
+  ): DeleteRelationSubtaskPayload
+
+  """Deletes a single `Task` using its globally unique id."""
+  deleteTask(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteTaskInput!
+  ): DeleteTaskPayload
+
+  """Deletes a single `Task` using a unique key."""
+  deleteTaskById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteTaskByIdInput!
+  ): DeleteTaskPayload
 }
 
 """An object with a globally unique `ID`."""
@@ -306,8 +459,8 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
-  """Reads and enables pagination through a set of `Thing`."""
-  allThings(
+  """Reads and enables pagination through a set of `RelationPrerequisite`."""
+  allRelationPrerequisites(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -326,17 +479,17 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `RelationPrerequisite`."""
+    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ThingCondition
-  ): ThingsConnection
+    condition: RelationPrerequisiteCondition
+  ): RelationPrerequisitesConnection
 
-  """Reads and enables pagination through a set of `User`."""
-  allUsers(
+  """Reads and enables pagination through a set of `RelationSubtask`."""
+  allRelationSubtasks(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -355,50 +508,101 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `RelationSubtask`."""
+    orderBy: [RelationSubtasksOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: UserCondition
-  ): UsersConnection
-  thingById(id: Int!): Thing
-  userById(id: Int!): User
+    condition: RelationSubtaskCondition
+  ): RelationSubtasksConnection
 
-  """Reads a single `Thing` using its globally unique `ID`."""
-  thing(
-    """The globally unique `ID` to be used in selecting a single `Thing`."""
-    nodeId: ID!
-  ): Thing
+  """Reads and enables pagination through a set of `Task`."""
+  allTasks(
+    """Only read the first `n` values of the set."""
+    first: Int
 
-  """Reads a single `User` using its globally unique `ID`."""
-  user(
-    """The globally unique `ID` to be used in selecting a single `User`."""
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+  ): TasksConnection
+  relationPrerequisiteById(id: Int!): RelationPrerequisite
+  relationSubtaskById(id: Int!): RelationSubtask
+  taskById(id: Int!): Task
+
+  """Reads a single `RelationPrerequisite` using its globally unique `ID`."""
+  relationPrerequisite(
+    """
+    The globally unique `ID` to be used in selecting a single `RelationPrerequisite`.
+    """
     nodeId: ID!
-  ): User
+  ): RelationPrerequisite
+
+  """Reads a single `RelationSubtask` using its globally unique `ID`."""
+  relationSubtask(
+    """
+    The globally unique `ID` to be used in selecting a single `RelationSubtask`.
+    """
+    nodeId: ID!
+  ): RelationSubtask
+
+  """Reads a single `Task` using its globally unique `ID`."""
+  task(
+    """The globally unique `ID` to be used in selecting a single `Task`."""
+    nodeId: ID!
+  ): Task
 }
 
-type Thing implements Node {
+type RelationPrerequisite implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
   id: Int!
-  name: String!
+  taskId: Int!
+  prerequisiteTaskId: Int!
   createdAt: Datetime!
   updatedAt: Datetime!
+
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByPrerequisiteTaskId: Task
 }
 
 """
-A condition to be used against `Thing` object types. All fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `RelationPrerequisite` object types. All fields
+are tested for equality and combined with a logical ‘and.’
 """
-input ThingCondition {
+input RelationPrerequisiteCondition {
   """Checks for equality with the object’s `id` field."""
   id: Int
 
-  """Checks for equality with the object’s `name` field."""
-  name: String
+  """Checks for equality with the object’s `taskId` field."""
+  taskId: Int
+
+  """Checks for equality with the object’s `prerequisiteTaskId` field."""
+  prerequisiteTaskId: Int
 
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
@@ -407,57 +611,63 @@ input ThingCondition {
   updatedAt: Datetime
 }
 
-"""An input for mutations affecting `Thing`"""
-input ThingInput {
+"""An input for mutations affecting `RelationPrerequisite`"""
+input RelationPrerequisiteInput {
   id: Int
-  name: String!
+  taskId: Int!
+  prerequisiteTaskId: Int!
   createdAt: Datetime
   updatedAt: Datetime
 }
 
 """
-Represents an update to a `Thing`. Fields that are set will be updated.
+Represents an update to a `RelationPrerequisite`. Fields that are set will be updated.
 """
-input ThingPatch {
+input RelationPrerequisitePatch {
   id: Int
-  name: String
+  taskId: Int
+  prerequisiteTaskId: Int
   createdAt: Datetime
   updatedAt: Datetime
 }
 
-"""A connection to a list of `Thing` values."""
-type ThingsConnection {
-  """A list of `Thing` objects."""
-  nodes: [Thing]!
+"""A connection to a list of `RelationPrerequisite` values."""
+type RelationPrerequisitesConnection {
+  """A list of `RelationPrerequisite` objects."""
+  nodes: [RelationPrerequisite]!
 
   """
-  A list of edges which contains the `Thing` and cursor to aid in pagination.
+  A list of edges which contains the `RelationPrerequisite` and cursor to aid in pagination.
   """
-  edges: [ThingsEdge!]!
+  edges: [RelationPrerequisitesEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """The count of *all* `Thing` you could get from the connection."""
+  """
+  The count of *all* `RelationPrerequisite` you could get from the connection.
+  """
   totalCount: Int!
 }
 
-"""A `Thing` edge in the connection."""
-type ThingsEdge {
+"""A `RelationPrerequisite` edge in the connection."""
+type RelationPrerequisitesEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `Thing` at the end of the edge."""
-  node: Thing
+  """The `RelationPrerequisite` at the end of the edge."""
+  node: RelationPrerequisite
 }
 
-"""Methods to use when ordering `Thing`."""
-enum ThingsOrderBy {
+"""Methods to use when ordering `RelationPrerequisite`."""
+enum RelationPrerequisitesOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  NAME_ASC
-  NAME_DESC
+  TASK_ID_ASC
+  TASK_ID_DESC
+  PREREQUISITE_TASK_ID_ASC
+  PREREQUISITE_TASK_ID_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
@@ -466,202 +676,491 @@ enum ThingsOrderBy {
   PRIMARY_KEY_DESC
 }
 
-"""All input for the `updateThingById` mutation."""
-input UpdateThingByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Thing` being updated.
-  """
-  thingPatch: ThingPatch!
-  id: Int!
-}
-
-"""All input for the `updateThing` mutation."""
-input UpdateThingInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Thing` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `Thing` being updated.
-  """
-  thingPatch: ThingPatch!
-}
-
-"""The output of our update `Thing` mutation."""
-type UpdateThingPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Thing` that was updated by this mutation."""
-  thing: Thing
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Thing`. May be used by Relay 1."""
-  thingEdge(
-    """The method to use when ordering `Thing`."""
-    orderBy: [ThingsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ThingsEdge
-}
-
-"""All input for the `updateUserById` mutation."""
-input UpdateUserByIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `User` being updated.
-  """
-  userPatch: UserPatch!
-  id: Int!
-}
-
-"""All input for the `updateUser` mutation."""
-input UpdateUserInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `User` to be updated.
-  """
-  nodeId: ID!
-
-  """
-  An object where the defined keys will be set on the `User` being updated.
-  """
-  userPatch: UserPatch!
-}
-
-"""The output of our update `User` mutation."""
-type UpdateUserPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `User` that was updated by this mutation."""
-  user: User
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `User`. May be used by Relay 1."""
-  userEdge(
-    """The method to use when ordering `User`."""
-    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
-  ): UsersEdge
-}
-
-type User implements Node {
+type RelationSubtask implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
   id: Int!
-  userName: String!
-  firstName: String
-  lastName: String
+  taskId: Int!
+  subtaskTaskId: Int!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskBySubtaskTaskId: Task
 }
 
 """
-A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `RelationSubtask` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input UserCondition {
+input RelationSubtaskCondition {
   """Checks for equality with the object’s `id` field."""
   id: Int
 
-  """Checks for equality with the object’s `userName` field."""
-  userName: String
+  """Checks for equality with the object’s `taskId` field."""
+  taskId: Int
 
-  """Checks for equality with the object’s `firstName` field."""
-  firstName: String
+  """Checks for equality with the object’s `subtaskTaskId` field."""
+  subtaskTaskId: Int
 
-  """Checks for equality with the object’s `lastName` field."""
-  lastName: String
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
 }
 
-"""An input for mutations affecting `User`"""
-input UserInput {
+"""An input for mutations affecting `RelationSubtask`"""
+input RelationSubtaskInput {
   id: Int
-  userName: String!
-  firstName: String
-  lastName: String
+  taskId: Int!
+  subtaskTaskId: Int!
+  createdAt: Datetime
+  updatedAt: Datetime
 }
 
-"""Represents an update to a `User`. Fields that are set will be updated."""
-input UserPatch {
+"""
+Represents an update to a `RelationSubtask`. Fields that are set will be updated.
+"""
+input RelationSubtaskPatch {
   id: Int
-  userName: String
-  firstName: String
-  lastName: String
+  taskId: Int
+  subtaskTaskId: Int
+  createdAt: Datetime
+  updatedAt: Datetime
 }
 
-"""A connection to a list of `User` values."""
-type UsersConnection {
-  """A list of `User` objects."""
-  nodes: [User]!
+"""A connection to a list of `RelationSubtask` values."""
+type RelationSubtasksConnection {
+  """A list of `RelationSubtask` objects."""
+  nodes: [RelationSubtask]!
 
   """
-  A list of edges which contains the `User` and cursor to aid in pagination.
+  A list of edges which contains the `RelationSubtask` and cursor to aid in pagination.
   """
-  edges: [UsersEdge!]!
+  edges: [RelationSubtasksEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """The count of *all* `User` you could get from the connection."""
+  """
+  The count of *all* `RelationSubtask` you could get from the connection.
+  """
   totalCount: Int!
 }
 
-"""A `User` edge in the connection."""
-type UsersEdge {
+"""A `RelationSubtask` edge in the connection."""
+type RelationSubtasksEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `User` at the end of the edge."""
-  node: User
+  """The `RelationSubtask` at the end of the edge."""
+  node: RelationSubtask
 }
 
-"""Methods to use when ordering `User`."""
-enum UsersOrderBy {
+"""Methods to use when ordering `RelationSubtask`."""
+enum RelationSubtasksOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  USER_NAME_ASC
-  USER_NAME_DESC
-  FIRST_NAME_ASC
-  FIRST_NAME_DESC
-  LAST_NAME_ASC
-  LAST_NAME_DESC
+  TASK_ID_ASC
+  TASK_ID_DESC
+  SUBTASK_TASK_ID_ASC
+  SUBTASK_TASK_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
+}
+
+type Task implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  toDo: String!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads and enables pagination through a set of `RelationSubtask`."""
+  subtasks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RelationSubtask`."""
+    orderBy: [RelationSubtasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RelationSubtaskCondition
+  ): RelationSubtasksConnection!
+
+  """Reads and enables pagination through a set of `RelationSubtask`."""
+  subtaskOf(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RelationSubtask`."""
+    orderBy: [RelationSubtasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RelationSubtaskCondition
+  ): RelationSubtasksConnection!
+
+  """Reads and enables pagination through a set of `RelationPrerequisite`."""
+  prerequisites(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RelationPrerequisite`."""
+    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RelationPrerequisiteCondition
+  ): RelationPrerequisitesConnection!
+
+  """Reads and enables pagination through a set of `RelationPrerequisite`."""
+  prerequisiteOf(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RelationPrerequisite`."""
+    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RelationPrerequisiteCondition
+  ): RelationPrerequisitesConnection!
+}
+
+"""
+A condition to be used against `Task` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input TaskCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `toDo` field."""
+  toDo: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""An input for mutations affecting `Task`"""
+input TaskInput {
+  id: Int
+  toDo: String!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""Represents an update to a `Task`. Fields that are set will be updated."""
+input TaskPatch {
+  id: Int
+  toDo: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""A connection to a list of `Task` values."""
+type TasksConnection {
+  """A list of `Task` objects."""
+  nodes: [Task]!
+
+  """
+  A list of edges which contains the `Task` and cursor to aid in pagination.
+  """
+  edges: [TasksEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Task` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Task` edge in the connection."""
+type TasksEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Task` at the end of the edge."""
+  node: Task
+}
+
+"""Methods to use when ordering `Task`."""
+enum TasksOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  TO_DO_ASC
+  TO_DO_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the `updateRelationPrerequisiteById` mutation."""
+input UpdateRelationPrerequisiteByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `RelationPrerequisite` being updated.
+  """
+  relationPrerequisitePatch: RelationPrerequisitePatch!
+  id: Int!
+}
+
+"""All input for the `updateRelationPrerequisite` mutation."""
+input UpdateRelationPrerequisiteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RelationPrerequisite` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `RelationPrerequisite` being updated.
+  """
+  relationPrerequisitePatch: RelationPrerequisitePatch!
+}
+
+"""The output of our update `RelationPrerequisite` mutation."""
+type UpdateRelationPrerequisitePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RelationPrerequisite` that was updated by this mutation."""
+  relationPrerequisite: RelationPrerequisite
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  taskByPrerequisiteTaskId: Task
+
+  """An edge for our `RelationPrerequisite`. May be used by Relay 1."""
+  relationPrerequisiteEdge(
+    """The method to use when ordering `RelationPrerequisite`."""
+    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationPrerequisitesEdge
+}
+
+"""All input for the `updateRelationSubtaskById` mutation."""
+input UpdateRelationSubtaskByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `RelationSubtask` being updated.
+  """
+  relationSubtaskPatch: RelationSubtaskPatch!
+  id: Int!
+}
+
+"""All input for the `updateRelationSubtask` mutation."""
+input UpdateRelationSubtaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RelationSubtask` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `RelationSubtask` being updated.
+  """
+  relationSubtaskPatch: RelationSubtaskPatch!
+}
+
+"""The output of our update `RelationSubtask` mutation."""
+type UpdateRelationSubtaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RelationSubtask` that was updated by this mutation."""
+  relationSubtask: RelationSubtask
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskByTaskId: Task
+
+  """Reads a single `Task` that is related to this `RelationSubtask`."""
+  taskBySubtaskTaskId: Task
+
+  """An edge for our `RelationSubtask`. May be used by Relay 1."""
+  relationSubtaskEdge(
+    """The method to use when ordering `RelationSubtask`."""
+    orderBy: [RelationSubtasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationSubtasksEdge
+}
+
+"""All input for the `updateTaskById` mutation."""
+input UpdateTaskByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Task` being updated.
+  """
+  taskPatch: TaskPatch!
+  id: Int!
+}
+
+"""All input for the `updateTask` mutation."""
+input UpdateTaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Task` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Task` being updated.
+  """
+  taskPatch: TaskPatch!
+}
+
+"""The output of our update `Task` mutation."""
+type UpdateTaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Task` that was updated by this mutation."""
+  task: Task
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Task`. May be used by Relay 1."""
+  taskEdge(
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TasksEdge
 }
 

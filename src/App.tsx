@@ -10,6 +10,38 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+/*
+  TODO: modify this for re-use - 1-level-deep relation on all tasks
+
+query AllTasksPlusOneLevelOfRelationsDeep {
+  allTasks {
+    nodes {
+      toDo
+      subtasks {
+        nodes {
+          subtaskTaskId
+        }
+      }
+      subtaskOf {
+        nodes {
+          taskId
+        }
+      }
+      prerequisites {
+        nodes {
+          prerequisiteTaskId
+        }
+      }
+      prerequisiteOf {
+        nodes {
+          taskId
+        }
+      }
+      id
+    }
+  }
+}
+*/
 
 console.log('test');
 
@@ -22,19 +54,59 @@ function App() {
   client
     .query({
       query: gql`
-        query MyQuery {
-          allUsers {
+        query AllTasksPlusOneLevelOfRelationsDeep {
+          allTasks {
             nodes {
-              firstName
+              toDo
+              subtasks {
+                nodes {
+                  subtaskTaskId
+                }
+              }
+              subtaskOf {
+                nodes {
+                  taskId
+                }
+              }
+              prerequisites {
+                nodes {
+                  prerequisiteTaskId
+                }
+              }
+              prerequisiteOf {
+                nodes {
+                  taskId
+                }
+              }
               id
-              lastName
-              userName
             }
           }
         }
       `,
     })
-    .then((result) => setTest(result.data.allUsers.nodes.map((node: any) => node.firstName).join(', ')));
+    .then((result) => setTest(result.data.allTasks.nodes.map((node: any) => {
+      console.log("For task_id: " + node.id)
+      console.log("  has subtasks:")
+      node.subtasks.nodes.map((subtask: any) => {
+        console.log("   - " + subtask.subtaskTaskId)
+      })
+
+      console.log("  is subtask of:")
+      node.subtaskOf.nodes.map((subtask: any) => {
+        console.log("   - " + subtask.taskId)
+      })
+
+      console.log("  has prereqs:")
+      node.prerequisites.nodes.map((subtask: any) => {
+        console.log("   - " + subtask.prerequisiteTaskId)
+      })
+
+      console.log("  is prereq of:")
+      node.prerequisiteOf.nodes.map((subtask: any) => {
+        console.log("   - " + subtask.taskId)
+      })
+    }).join('\n\n')));
+    // .then((result) => setTest(result.data.allUsers.nodes.map((node: any) => node.firstName).join(', ')));
 
 
   return (
