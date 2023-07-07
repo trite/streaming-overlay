@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 
 import { ApolloClient, InMemoryCache, useQuery, gql } from '@apollo/client';
 
@@ -11,15 +11,15 @@ const client = new ApolloClient({
 });
 
 type Task = {
-  id: number,
+  id: number;
 
-  todo: string,
+  todo: string;
 
-  subtasks: Task[],
-  subtaskOf: Task[],
-  prerequisites: Task[],
-  prerequisiteOf: Task[]
-}
+  subtasks: Task[];
+  subtaskOf: Task[];
+  prerequisites: Task[];
+  prerequisiteOf: Task[];
+};
 
 /*
   TODO: modify this for re-use - 1-level-deep relation on all tasks
@@ -57,105 +57,121 @@ query AllTasksPlusOneLevelOfRelationsDeep {
 console.log('test');
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
-  const [test, setTest] = useState("test")
+  const [test, setTest] = useState('test');
 
+  const [textAreaValue, setTextAreaValue] = useState('test');
 
   // client
   //   .query({
   //     query: gql`
   const { loading, error, data } = useQuery(gql`
-        query AllTasksPlusOneLevelOfRelationsDeep {
-          allTasks {
+    query AllTasksPlusOneLevelOfRelationsDeep {
+      allTasks {
+        nodes {
+          toDo
+          subtasks {
             nodes {
-              toDo
-              subtasks {
-                nodes {
-                  subtaskTaskId
-                }
-              }
-              subtaskOf {
-                nodes {
-                  taskId
-                }
-              }
-              prerequisites {
-                nodes {
-                  prerequisiteTaskId
-                }
-              }
-              prerequisiteOf {
-                nodes {
-                  taskId
-                }
-              }
-              id
+              subtaskTaskId
             }
           }
+          subtaskOf {
+            nodes {
+              taskId
+            }
+          }
+          prerequisites {
+            nodes {
+              prerequisiteTaskId
+            }
+          }
+          prerequisiteOf {
+            nodes {
+              taskId
+            }
+          }
+          id
         }
-      `,
-    )
-    // .then((result) => setTest(result.data.allTasks.nodes.map((node: any) => {
-    //   console.log("For task_id: " + node.id)
-    //   console.log("  has subtasks:")
-    //   node.subtasks.nodes.map((subtask: any) => {
-    //     console.log("   - " + subtask.subtaskTaskId)
-    //   })
+      }
+    }
+  `);
+  // .then((result) => setTest(result.data.allTasks.nodes.map((node: any) => {
+  //   console.log("For task_id: " + node.id)
+  //   console.log("  has subtasks:")
+  //   node.subtasks.nodes.map((subtask: any) => {
+  //     console.log("   - " + subtask.subtaskTaskId)
+  //   })
 
-    //   console.log("  is subtask of:")
-    //   node.subtaskOf.nodes.map((subtask: any) => {
-    //     console.log("   - " + subtask.taskId)
-    //   })
+  //   console.log("  is subtask of:")
+  //   node.subtaskOf.nodes.map((subtask: any) => {
+  //     console.log("   - " + subtask.taskId)
+  //   })
 
-    //   console.log("  has prereqs:")
-    //   node.prerequisites.nodes.map((subtask: any) => {
-    //     console.log("   - " + subtask.prerequisiteTaskId)
-    //   })
+  //   console.log("  has prereqs:")
+  //   node.prerequisites.nodes.map((subtask: any) => {
+  //     console.log("   - " + subtask.prerequisiteTaskId)
+  //   })
 
-    //   console.log("  is prereq of:")
-    //   node.prerequisiteOf.nodes.map((subtask: any) => {
-    //     console.log("   - " + subtask.taskId)
-    //   })
-    // })));
-    // .then((result) => setTest(result.data.allUsers.nodes.map((node: any) => node.firstName).join(', ')));
+  //   console.log("  is prereq of:")
+  //   node.prerequisiteOf.nodes.map((subtask: any) => {
+  //     console.log("   - " + subtask.taskId)
+  //   })
+  // })));
+  // .then((result) => setTest(result.data.allUsers.nodes.map((node: any) => node.firstName).join(', ')));
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
-
+  if (loading) {
+    setTextAreaValue('loading');
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    setTextAreaValue('error');
+    return <p>Error : {error.message}</p>;
+  }
+  //   // setTextAreaValue(
+  //   //   data.allTasks.nodes
+  //   //     .map((node: any) => {
+  //   //       'For task_id: ' +
+  //   //         node.id +
+  //   //         '\n' +
+  //   //         '  has subtasks:' +
+  //   //         '\n' +
+  //   //         node.subtasks.nodes
+  //   //           .map((subtask: any) => {
+  //   //             '   - ' + subtask.subtaskTaskId + '\n';
+  //   //           })
+  //   //           .join('') +
+  //   //         '  is subtask of:' +
+  //   //         '\n' +
+  //   //         node.subtaskOf.nodes
+  //   //           .map((subtaskOf: any) => {
+  //   //             '   - ' + subtaskOf.taskId;
+  //   //           })
+  //   //           .join('') +
+  //   //         '  has prereqs:' +
+  //   //         node.prerequisites.nodes
+  //   //           .map((prereq: any) => {
+  //   //             '   - ' + prereq.prerequisiteTaskId;
+  //   //           })
+  //   //           .join('') +
+  //   //         '  is prereq of:' +
+  //   //         node.prerequisiteOf.nodes
+  //   //           .map((prereqOf: any) => {
+  //   //             '   - ' + prereqOf.taskId;
+  //   //           })
+  //   //           .join('');
+  //   //     })
+  //   //     .join('')
+  //   // );
+  setTextAreaValue('something');
 
   return (
     <>
-      {
-        data.allTasks.nodes.map((node: any) => {
-          <textarea>
-            {
-              "For task_id: " + node.id + "\n" +
-              "  has subtasks:" + "\n" +
-              node.subtasks.nodes.map((subtask: any) => {
-                "   - " + subtask.subtaskTaskId + "\n"
-              }).join('') +
-
-              "  is subtask of:" + "\n" +
-              node.subtaskOf.nodes.map((subtaskOf: any) => {
-                "   - " + subtaskOf.taskId
-              }).join('') +
-
-              "  has prereqs:" +
-              node.prerequisites.nodes.map((prereq: any) => {
-                "   - " + prereq.prerequisiteTaskId
-              }).join('') +
-
-              "  is prereq of:" +
-              node.prerequisiteOf.nodes.map((prereqOf: any) => {
-                "   - " + prereqOf.taskId
-              }).join('')
-            }
-          </textarea>
-        })
-      }
+      <p>testing</p>
+      <textarea value={'blah'}></textarea>
+      <p>testing2</p>
     </>
-  )
+  );
 
   // return (
   //   <>
@@ -185,4 +201,4 @@ function App() {
   // )
 }
 
-export default App
+export default App;
