@@ -1,204 +1,72 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { graphql } from 'relay-runtime';
 import './App.css';
 
-import { ApolloClient, InMemoryCache, useQuery, gql } from '@apollo/client';
+// type Task = {
+//   id: number;
+//   todo: string;
+//   subtasks: Task[];
+//   subtaskOf: Task[];
+//   prerequisites: Task[];
+//   prerequisiteOf: Task[];
+// };
 
-const client = new ApolloClient({
-  uri: 'http://localhost:5433/graphql',
-  cache: new InMemoryCache(),
-});
-
-type Task = {
-  id: number;
-
-  todo: string;
-
-  subtasks: Task[];
-  subtaskOf: Task[];
-  prerequisites: Task[];
-  prerequisiteOf: Task[];
-};
+const AppQuery = graphql`
+  query AppQuery {
+    allTasks {
+      nodes {
+        id
+        toDo
+        subtasks {
+          nodes {
+            subtaskTaskId
+          }
+        }
+        subtaskOf {
+          nodes {
+            taskId
+          }
+        }
+        prerequisites {
+          nodes {
+            prerequisiteTaskId
+          }
+        }
+        prerequisiteOf {
+          nodes {
+            taskId
+          }
+        }
+      }
+    }
+  }
+`;
 
 /*
-  TODO: modify this for re-use - 1-level-deep relation on all tasks
+Tasks for today:
+- [X] Do the first thing
+- [ ] Do the second thing whenever
+- [ ] Do the third thing, only after the first thing is done // this is shown but grayed out
+- [ ] Do the fourth thing, only after the second thing is done // this is shown but grayed out
+- [ ] Do the fifth thing, only after the third thing is done // not shown until the first thing is done
+- [ ] Do the sixth thing, only after the fourth thing is done // not shown until the second thing is done
 
-query AllTasksPlusOneLevelOfRelationsDeep {
-  allTasks {
-    nodes {
-      toDo
-      subtasks {
-        nodes {
-          subtaskTaskId
-        }
-      }
-      subtaskOf {
-        nodes {
-          taskId
-        }
-      }
-      prerequisites {
-        nodes {
-          prerequisiteTaskId
-        }
-      }
-      prerequisiteOf {
-        nodes {
-          taskId
-        }
-      }
-      id
-    }
-  }
-}
+Upon completing task 1 or 2
+  Task 3 or 4 is no longer grayed out
+  Task 5 or 6 is now shown, but is grayed out
+
+  This shouldn't be too bad to achieve by simply traversing any "prerequisiteOf" relationships
+    until you find a task that is not completed, then grabbing the next "prerequisiteOf" entries
+    to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
 
-console.log('test');
-
 function App() {
-  const [count, setCount] = useState(0);
-
-  const [test, setTest] = useState('test');
-
-  const [textAreaValue, setTextAreaValue] = useState('test');
-
-  // client
-  //   .query({
-  //     query: gql`
-  const { loading, error, data } = useQuery(gql`
-    query AllTasksPlusOneLevelOfRelationsDeep {
-      allTasks {
-        nodes {
-          toDo
-          subtasks {
-            nodes {
-              subtaskTaskId
-            }
-          }
-          subtaskOf {
-            nodes {
-              taskId
-            }
-          }
-          prerequisites {
-            nodes {
-              prerequisiteTaskId
-            }
-          }
-          prerequisiteOf {
-            nodes {
-              taskId
-            }
-          }
-          id
-        }
-      }
-    }
-  `);
-  // .then((result) => setTest(result.data.allTasks.nodes.map((node: any) => {
-  //   console.log("For task_id: " + node.id)
-  //   console.log("  has subtasks:")
-  //   node.subtasks.nodes.map((subtask: any) => {
-  //     console.log("   - " + subtask.subtaskTaskId)
-  //   })
-
-  //   console.log("  is subtask of:")
-  //   node.subtaskOf.nodes.map((subtask: any) => {
-  //     console.log("   - " + subtask.taskId)
-  //   })
-
-  //   console.log("  has prereqs:")
-  //   node.prerequisites.nodes.map((subtask: any) => {
-  //     console.log("   - " + subtask.prerequisiteTaskId)
-  //   })
-
-  //   console.log("  is prereq of:")
-  //   node.prerequisiteOf.nodes.map((subtask: any) => {
-  //     console.log("   - " + subtask.taskId)
-  //   })
-  // })));
-  // .then((result) => setTest(result.data.allUsers.nodes.map((node: any) => node.firstName).join(', ')));
-
-  if (loading) {
-    setTextAreaValue('loading');
-    return <p>Loading...</p>;
-  }
-  if (error) {
-    setTextAreaValue('error');
-    return <p>Error : {error.message}</p>;
-  }
-  //   // setTextAreaValue(
-  //   //   data.allTasks.nodes
-  //   //     .map((node: any) => {
-  //   //       'For task_id: ' +
-  //   //         node.id +
-  //   //         '\n' +
-  //   //         '  has subtasks:' +
-  //   //         '\n' +
-  //   //         node.subtasks.nodes
-  //   //           .map((subtask: any) => {
-  //   //             '   - ' + subtask.subtaskTaskId + '\n';
-  //   //           })
-  //   //           .join('') +
-  //   //         '  is subtask of:' +
-  //   //         '\n' +
-  //   //         node.subtaskOf.nodes
-  //   //           .map((subtaskOf: any) => {
-  //   //             '   - ' + subtaskOf.taskId;
-  //   //           })
-  //   //           .join('') +
-  //   //         '  has prereqs:' +
-  //   //         node.prerequisites.nodes
-  //   //           .map((prereq: any) => {
-  //   //             '   - ' + prereq.prerequisiteTaskId;
-  //   //           })
-  //   //           .join('') +
-  //   //         '  is prereq of:' +
-  //   //         node.prerequisiteOf.nodes
-  //   //           .map((prereqOf: any) => {
-  //   //             '   - ' + prereqOf.taskId;
-  //   //           })
-  //   //           .join('');
-  //   //     })
-  //   //     .join('')
-  //   // );
-  setTextAreaValue('something');
-
   return (
     <>
       <p>testing</p>
-      <textarea value={'blah'}></textarea>
+      <pre>{textAreaValue}</pre>
       <p>testing2</p>
     </>
   );
-
-  // return (
-  //   <>
-  //     <div>
-  //       <a href="https://vitejs.dev" target="_blank">
-  //         <img src={viteLogo} className="logo" alt="Vite logo" />
-  //       </a>
-  //       <a href="https://react.dev" target="_blank">
-  //         <img src={reactLogo} className="logo react" alt="React logo" />
-  //       </a>
-  //     </div>
-  //     <h1>Vite + React</h1>
-  //     <div className="card">
-  //       <button onClick={() => setCount((count) => count + 1)}>
-  //         count is {count}
-  //       </button>
-  //       <p>
-  //         Edit blablah <code>src/App.tsx</code> and save to test HMR
-  //       </p>
-
-  //       <p>{test}</p>
-  //     </div>
-  //     <p className="read-the-docs">
-  //       Click on the Vite and React logos to learn more
-  //     </p>
-  //   </>
-  // )
 }
 
 export default App;
