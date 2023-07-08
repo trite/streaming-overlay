@@ -1,5 +1,8 @@
 import { graphql } from 'relay-runtime';
 import './App.css';
+import { useLazyLoadQuery } from 'react-relay';
+import { AppQuery as AppQueryType } from './__generated__/AppQuery.graphql';
+import React from 'react';
 
 // type Task = {
 //   id: number;
@@ -14,7 +17,7 @@ const AppQuery = graphql`
   query AppQuery {
     allTasks {
       nodes {
-        id
+        taskId: id
         toDo
         subtasks {
           nodes {
@@ -59,14 +62,33 @@ Upon completing task 1 or 2
     to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
 
-function App() {
+function TaskList() {
+  const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
+
   return (
-    <>
-      <p>testing</p>
-      <pre>{textAreaValue}</pre>
-      <p>testing2</p>
-    </>
+    <div className={'task-box-div-container'}>
+      <p>{`Task count: ${data.allTasks?.nodes.length}`}</p>
+      {data.allTasks?.nodes.map((task) => {
+        return (
+          <div key={task?.taskId} className={'task-box-div'}>
+            <p>{task?.toDo}</p>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
-export default App;
+function Loading() {
+  return <div>Loading...</div>;
+}
+
+export default function App() {
+  return (
+    <div>
+      <React.Suspense fallback={<Loading />}>
+        <TaskList />
+      </React.Suspense>
+    </div>
+  );
+}
