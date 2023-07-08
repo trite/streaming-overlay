@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently --kill-others \"npm:dev:relay\" \"npm:dev:vite\"",
+    "i": "npm install --legacy-peer-deps",
     "build": "relay-compiler --validate && tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "force:restart": "docker compose down --volumes && docker compose up --build -d",
     "get:schema": "dotenv -- cross-var npx get-graphql-schema %ENDPOINT_URL% > schema.graphql",
-    "relay": "relay-compiler --watch"
+    "dev:vite": "vite",
+    "dev:relay": "relay-compiler --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.7.16",
