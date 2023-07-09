@@ -4,26 +4,20 @@ import { useLazyLoadQuery } from 'react-relay';
 import { AppQuery as AppQueryType } from './__generated__/AppQuery.graphql';
 import React from 'react';
 
-// type Task = {
-//   id: number;
-//   todo: string;
-//   subtasks: Task[];
-//   subtaskOf: Task[];
-//   prerequisites: Task[];
-//   prerequisiteOf: Task[];
-// };
+import * as O from 'fp-ts/Option';
+// import { pipe } from 'fp-ts/function';
 
 const AppQuery = graphql`
   query AppQuery {
     allTasks {
       nodes {
-        id
+        taskId: id
         toDo
         status
         subtasks {
           nodes {
             taskBySubtaskTaskId {
-              id
+              taskId: id
               toDo
               status
             }
@@ -32,7 +26,7 @@ const AppQuery = graphql`
         subtaskOf {
           nodes {
             taskByTaskId {
-              id
+              taskId: id
               toDo
               status
             }
@@ -41,7 +35,7 @@ const AppQuery = graphql`
         prerequisites {
           nodes {
             taskByPrerequisiteTaskId {
-              id
+              taskId: id
               toDo
               status
             }
@@ -50,7 +44,7 @@ const AppQuery = graphql`
         prerequisiteOf {
           nodes {
             taskByTaskId {
-              id
+              taskId: id
               toDo
               status
             }
@@ -78,6 +72,40 @@ Upon completing task 1 or 2
     until you find a task that is not completed, then grabbing the next "prerequisiteOf" entries
     to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
+
+type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'IN_PROGRESS_PAUSED' | 'DONE';
+
+type Task = {
+  taskId: number;
+  toDo: string;
+  status: TaskStatus;
+
+  // Using Option:
+  subtasks: O.Option<Task[]>;
+  subtaskOf: O.Option<Task[]>;
+  prereqs: O.Option<Task[]>;
+  prereqOf: O.Option<Task[]>;
+};
+
+const exampleType = {
+  taskId: 1,
+  todo: 'Do the thing',
+  status: 'TODO',
+  subtasks: O.none,
+  subtaskOf: O.none,
+  prereqs: O.none,
+  prereqOf: O.some([
+    {
+      taskId: 2,
+      todo: 'Do the other thing',
+      status: 'TODO',
+      subtasks: O.none,
+      subtaskOf: O.none,
+      prereqs: O.none,
+      prereqOf: O.none,
+    },
+  ]),
+};
 
 // function TaskBox(task: ) {
 //   return <div></div>;
