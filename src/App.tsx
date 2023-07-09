@@ -4,8 +4,9 @@ import { useLazyLoadQuery } from 'react-relay';
 import { AppQuery as AppQueryType } from './__generated__/AppQuery.graphql';
 import React from 'react';
 
+import * as R from './utils/Result.ts';
+
 import * as O from 'fp-ts/Option';
-// import { pipe } from 'fp-ts/function';
 
 const AppQuery = graphql`
   query AppQuery {
@@ -56,6 +57,8 @@ const AppQuery = graphql`
 `;
 
 /*
+Example of how prerequisites should work:
+
 Tasks for today:
 - [X] Do the first thing
 - [ ] Do the second thing whenever
@@ -141,3 +144,15 @@ export default function App() {
     </div>
   );
 }
+
+const test: R.Result<number> =
+  Math.random() > 0.5 ? R.Err(new Error('OH NOES')) : R.Ok(1);
+
+function checkThings(test: R.Result<number>) {
+  return R.match(
+    (result) => 'ok: ' + result,
+    (error) => 'err: ' + error
+  )(test);
+}
+
+console.log(checkThings(test));
