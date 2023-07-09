@@ -10,9 +10,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TYPE public.task_status AS ENUM (
+  'TODO',
+  'IN_PROGRESS',
+  'IN_PROGRESS_PAUSED',
+  'DONE'
+);
+
 CREATE TABLE IF NOT EXISTS public.task (
 	id serial PRIMARY KEY,
   to_do text NOT NULL,
+  status public.task_status NOT NULL DEFAULT 'TODO',
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
@@ -63,3 +71,55 @@ COMMENT ON CONSTRAINT relation_prerequisite_prerequisite_task_id_fkey
 COMMENT ON CONSTRAINT relation_prerequisite_task_id_fkey
   ON public.relation_prerequisite IS
   E'@foreignFieldName prerequisites';
+
+CREATE FUNCTION public.task_has_subtasks(task public.task)
+RETURNS TEXT AS $$
+  SELECT
+    CASE
+      WHEN EXISTS (
+        SELECT 1
+        FROM public.relation_subtask
+        WHERE task_id = task.id
+      ) THEN 'true'
+      ELSE 'false'
+    END
+$$ LANGUAGE SQL STABLE;
+
+CREATE FUNCTION public.task_is_subtask(task public.task)
+RETURNS TEXT AS $$
+  SELECT
+    CASE
+      WHEN EXISTS (
+        SELECT 1
+        FROM public.relation_subtask
+        WHERE subtask_task_id = task.id
+      ) THEN 'true'
+      ELSE 'false'
+    END
+$$ LANGUAGE SQL STABLE;
+
+CREATE FUNCTION public.task_has_prereqs(task public.task)
+RETURNS TEXT AS $$
+  SELECT
+    CASE
+      WHEN EXISTS (
+        SELECT 1
+        FROM public.relation_prerequisite
+        WHERE task_id = task.id
+      ) THEN 'true'
+      ELSE 'false'
+    END
+$$ LANGUAGE SQL STABLE;
+
+CREATE FUNCTION public.task_is_prereq(task public.task)
+RETURNS TEXT AS $$
+  SELECT
+    CASE
+      WHEN EXISTS (
+        SELECT 1
+        FROM public.relation_prerequisite
+        WHERE prerequisite_task_id = task.id
+      ) THEN 'true'
+      ELSE 'false'
+    END
+$$ LANGUAGE SQL STABLE;
