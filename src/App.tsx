@@ -17,26 +17,43 @@ const AppQuery = graphql`
   query AppQuery {
     allTasks {
       nodes {
-        taskId: id
+        id
         toDo
+        status
         subtasks {
           nodes {
-            subtaskTaskId
+            taskBySubtaskTaskId {
+              id
+              toDo
+              status
+            }
           }
         }
         subtaskOf {
           nodes {
-            taskId
+            taskByTaskId {
+              id
+              toDo
+              status
+            }
           }
         }
         prerequisites {
           nodes {
-            prerequisiteTaskId
+            taskByPrerequisiteTaskId {
+              id
+              toDo
+              status
+            }
           }
         }
         prerequisiteOf {
           nodes {
-            taskId
+            taskByTaskId {
+              id
+              toDo
+              status
+            }
           }
         }
       }
@@ -61,6 +78,10 @@ Upon completing task 1 or 2
     until you find a task that is not completed, then grabbing the next "prerequisiteOf" entries
     to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
+
+// function TaskBox(task: ) {
+//   return <div></div>;
+// }
 
 function TaskList() {
   const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
