@@ -13,7 +13,7 @@ VALUES
   (2, 3),
   (2, 4);
 
-INSERT INTO public.relation_prerequisite(task_id, prerequisite_task_id)
+INSERT INTO public.relation_prereq(task_id, prereq_task_id)
 VALUES
   (2, 1),
   (5, 4);

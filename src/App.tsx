@@ -33,16 +33,16 @@ const AppQuery = graphql`
             }
           }
         }
-        prerequisites {
+        prereqs {
           nodes {
-            taskByPrerequisiteTaskId {
+            taskByPrereqTaskId {
               taskId: id
               toDo
               status
             }
           }
         }
-        prerequisiteOf {
+        prereqOf {
           nodes {
             taskByTaskId {
               taskId: id
@@ -57,7 +57,7 @@ const AppQuery = graphql`
 `;
 
 /*
-Example of how prerequisites should work:
+Example of how prereqs should work:
 
 Tasks for today:
 - [X] Do the first thing
@@ -71,8 +71,8 @@ Upon completing task 1 or 2
   Task 3 or 4 is no longer grayed out
   Task 5 or 6 is now shown, but is grayed out
 
-  This shouldn't be too bad to achieve by simply traversing any "prerequisiteOf" relationships
-    until you find a task that is not completed, then grabbing the next "prerequisiteOf" entries
+  This shouldn't be too bad to achieve by simply traversing any "prereqOf" relationships
+    until you find a task that is not completed, then grabbing the next "prereqOf" entries
     to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
 

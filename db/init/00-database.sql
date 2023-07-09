@@ -51,26 +51,26 @@ COMMENT ON CONSTRAINT relation_subtask_task_id_fkey
   ON public.relation_subtask IS
   E'@foreignFieldName subtasks';
 
-CREATE TABLE IF NOT EXISTS public.relation_prerequisite (
+CREATE TABLE IF NOT EXISTS public.relation_prereq (
    id SERIAL PRIMARY KEY,
    task_id INT NOT NULL REFERENCES public.task(id),
-   prerequisite_task_id INT NOT NULL REFERENCES public.task(id),
+   prereq_task_id INT NOT NULL REFERENCES public.task(id),
    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TRIGGER relation_prerequisite_trigger_updated_at
-   BEFORE UPDATE ON public.relation_prerequisite
+CREATE TRIGGER relation_prereq_trigger_updated_at
+   BEFORE UPDATE ON public.relation_prereq
    FOR EACH ROW
    EXECUTE PROCEDURE trigger_updated_at();
 
-COMMENT ON CONSTRAINT relation_prerequisite_prerequisite_task_id_fkey
-  ON public.relation_prerequisite IS
-  E'@foreignFieldName prerequisiteOf';
+COMMENT ON CONSTRAINT relation_prereq_prereq_task_id_fkey
+  ON public.relation_prereq IS
+  E'@foreignFieldName prereqOf';
 
-COMMENT ON CONSTRAINT relation_prerequisite_task_id_fkey
-  ON public.relation_prerequisite IS
-  E'@foreignFieldName prerequisites';
+COMMENT ON CONSTRAINT relation_prereq_task_id_fkey
+  ON public.relation_prereq IS
+  E'@foreignFieldName prereqs';
 
 CREATE FUNCTION public.task_has_subtasks(task public.task)
 RETURNS TEXT AS $$
@@ -104,7 +104,7 @@ RETURNS TEXT AS $$
     CASE
       WHEN EXISTS (
         SELECT 1
-        FROM public.relation_prerequisite
+        FROM public.relation_prereq
         WHERE task_id = task.id
       ) THEN 'true'
       ELSE 'false'
@@ -117,8 +117,8 @@ RETURNS TEXT AS $$
     CASE
       WHEN EXISTS (
         SELECT 1
-        FROM public.relation_prerequisite
-        WHERE prerequisite_task_id = task.id
+        FROM public.relation_prereq
+        WHERE prereq_task_id = task.id
       ) THEN 'true'
       ELSE 'false'
     END
