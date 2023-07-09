@@ -5,15 +5,7 @@ const cors = require("cors");
 
 const app = express();
 
-// const options = {
-//   origin: 'http://localhost:5173'
-// }
-// app.use(cors(options));
-// Enable pre-flight requests for all routes
-// app.options('*', cors(options));
-
 app.use(cors());
-
 
 app.use(
     postgraphile(process.env.DATABASE_URL, "public", {
@@ -25,7 +17,6 @@ app.use(
 );
 
 http.createServer(app).listen(process.env.GRAPHQL_PORT);
-
 
 /* START: Graceful shutdown */
 // The signals we want to handle
