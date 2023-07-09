@@ -4,9 +4,9 @@ INSERT INTO public.task(to_do)
 VALUES
   ('Convert app to TypeScript/Postgres/GraphQL'),
   ('Create `Control` and `Display` pages'),
-    ('Create `Control` page'),
-    ('Create `Display` page'),
-      ('Wire up subscriptions to `Display` page');
+  ('Create `Control` page'),
+  ('Create `Display` page'),
+  ('Wire up subscriptions to `Display` page');
 
 INSERT INTO public.relation_subtask(task_id, subtask_task_id)
 VALUES
