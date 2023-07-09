@@ -76,23 +76,27 @@ Upon completing task 1 or 2
     to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
 
-type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'IN_PROGRESS_PAUSED' | 'DONE';
+module Task {
+  export type TaskStatus =
+    | 'TODO'
+    | 'IN_PROGRESS'
+    | 'IN_PROGRESS_PAUSED'
+    | 'DONE';
 
-type Task = {
-  taskId: number;
-  toDo: string;
-  status: TaskStatus;
+  export type Task = {
+    taskId: number;
+    toDo: string;
+    status: TaskStatus;
+    subtasks: O.Option<Task[]>;
+    subtaskOf: O.Option<Task[]>;
+    prereqs: O.Option<Task[]>;
+    prereqOf: O.Option<Task[]>;
+  };
+}
 
-  // Using Option:
-  subtasks: O.Option<Task[]>;
-  subtaskOf: O.Option<Task[]>;
-  prereqs: O.Option<Task[]>;
-  prereqOf: O.Option<Task[]>;
-};
-
-const exampleType = {
+const exampleType: Task.Task = {
   taskId: 1,
-  todo: 'Do the thing',
+  toDo: 'Do the thing',
   status: 'TODO',
   subtasks: O.none,
   subtaskOf: O.none,
@@ -100,19 +104,20 @@ const exampleType = {
   prereqOf: O.some([
     {
       taskId: 2,
-      todo: 'Do the other thing',
+      toDo: 'Do the other thing',
       status: 'TODO',
       subtasks: O.none,
       subtaskOf: O.none,
       prereqs: O.none,
       prereqOf: O.none,
-    },
+    } satisfies Task.Task,
   ]),
 };
 
-// function TaskBox(task: ) {
-//   return <div></div>;
-// }
+// TODO: Make function to convert from GraphQL response to Task type
+function TaskBox(task: Task.Task) {
+  return <div></div>;
+}
 
 function TaskList() {
   const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});

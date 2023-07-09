@@ -12,8 +12,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE TYPE public.task_status AS ENUM (
   'TODO',
+  'BLOCKED', -- Intent: when blocked by a subtask or prereq
   'IN_PROGRESS',
-  'IN_PROGRESS_PAUSED',
   'DONE'
 );
 
