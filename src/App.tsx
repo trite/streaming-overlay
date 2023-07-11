@@ -3,54 +3,17 @@ import './App.css';
 import { useLazyLoadQuery } from 'react-relay';
 import { AppQuery as AppQueryType } from './__generated__/AppQuery.graphql';
 import React from 'react';
-
 import * as R from './utils/Result.ts';
-
-import * as O from 'fp-ts/Option';
+// import * as O from 'fp-ts/Option';
+// import { Task } from './Task';
+import TaskBox from './TaskBox.tsx';
 
 const AppQuery = graphql`
   query AppQuery {
     allTasks {
       nodes {
         taskId: id
-        toDo
-        status
-        subtasks {
-          nodes {
-            taskBySubtaskTaskId {
-              taskId: id
-              toDo
-              status
-            }
-          }
-        }
-        subtaskOf {
-          nodes {
-            taskByTaskId {
-              taskId: id
-              toDo
-              status
-            }
-          }
-        }
-        prereqs {
-          nodes {
-            taskByPrereqTaskId {
-              taskId: id
-              toDo
-              status
-            }
-          }
-        }
-        prereqOf {
-          nodes {
-            taskByTaskId {
-              taskId: id
-              toDo
-              status
-            }
-          }
-        }
+        ...TaskWithRelsFragment
       }
     }
   }
@@ -76,48 +39,27 @@ Upon completing task 1 or 2
     to find the next tasks to show (but grayed out or otherwise marked as "unavailable to do" yet). 
 */
 
-module Task {
-  export type TaskStatus =
-    | 'TODO'
-    | 'IN_PROGRESS'
-    | 'IN_PROGRESS_PAUSED'
-    | 'DONE';
-
-  export type Task = {
-    taskId: number;
-    toDo: string;
-    status: TaskStatus;
-    subtasks: O.Option<Task[]>;
-    subtaskOf: O.Option<Task[]>;
-    prereqs: O.Option<Task[]>;
-    prereqOf: O.Option<Task[]>;
-  };
-}
-
-const exampleType: Task.Task = {
-  taskId: 1,
-  toDo: 'Do the thing',
-  status: 'TODO',
-  subtasks: O.none,
-  subtaskOf: O.none,
-  prereqs: O.none,
-  prereqOf: O.some([
-    {
-      taskId: 2,
-      toDo: 'Do the other thing',
-      status: 'TODO',
-      subtasks: O.none,
-      subtaskOf: O.none,
-      prereqs: O.none,
-      prereqOf: O.none,
-    } satisfies Task.Task,
-  ]),
-};
+// const example: Task = {
+//   taskId: 1,
+//   toDo: 'Do the thing',
+//   status: 'TODO',
+//   subtasks: O.none,
+//   subtaskOf: O.none,
+//   prereqs: O.none,
+//   prereqOf: O.some([
+//     {
+//       taskId: 2,
+//       toDo: 'Do the other thing',
+//       status: 'TODO',
+//       subtasks: O.none,
+//       subtaskOf: O.none,
+//       prereqs: O.none,
+//       prereqOf: O.none,
+//     }, // satisfies Task.Task,
+//   ]),
+// };
 
 // TODO: Make function to convert from GraphQL response to Task type
-function TaskBox(task: Task.Task) {
-  return <div></div>;
-}
 
 function TaskList() {
   const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
@@ -126,11 +68,8 @@ function TaskList() {
     <div className={'task-box-div-container'}>
       <p>{`Task count: ${data.allTasks?.nodes.length}`}</p>
       {data.allTasks?.nodes.map((task) => {
-        return (
-          <div key={task?.taskId} className={'task-box-div'}>
-            <p>{task?.toDo}</p>
-          </div>
-        );
+        if (task == null) return <div>Task is null</div>; // TODO: Make this a proper error message
+        return <TaskBox key={task.taskId} task={task} />;
       })}
     </div>
   );
