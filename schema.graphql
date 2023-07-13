@@ -4,45 +4,45 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
-"""All input for the create `RelationPrerequisite` mutation."""
-input CreateRelationPrerequisiteInput {
+"""All input for the create `RelationPrereq` mutation."""
+input CreateRelationPrereqInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `RelationPrerequisite` to be created by this mutation."""
-  relationPrerequisite: RelationPrerequisiteInput!
+  """The `RelationPrereq` to be created by this mutation."""
+  relationPrereq: RelationPrereqInput!
 }
 
-"""The output of our create `RelationPrerequisite` mutation."""
-type CreateRelationPrerequisitePayload {
+"""The output of our create `RelationPrereq` mutation."""
+type CreateRelationPrereqPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `RelationPrerequisite` that was created by this mutation."""
-  relationPrerequisite: RelationPrerequisite
+  """The `RelationPrereq` that was created by this mutation."""
+  relationPrereq: RelationPrereq
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
   taskByTaskId: Task
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
-  taskByPrerequisiteTaskId: Task
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
+  taskByPrereqTaskId: Task
 
-  """An edge for our `RelationPrerequisite`. May be used by Relay 1."""
-  relationPrerequisiteEdge(
-    """The method to use when ordering `RelationPrerequisite`."""
-    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RelationPrerequisitesEdge
+  """An edge for our `RelationPrereq`. May be used by Relay 1."""
+  relationPrereqEdge(
+    """The method to use when ordering `RelationPrereq`."""
+    orderBy: [RelationPrereqsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationPrereqsEdge
 }
 
 """All input for the create `RelationSubtask` mutation."""
@@ -130,8 +130,8 @@ A point in time as described by the [ISO
 """
 scalar Datetime
 
-"""All input for the `deleteRelationPrerequisiteById` mutation."""
-input DeleteRelationPrerequisiteByIdInput {
+"""All input for the `deleteRelationPrereqById` mutation."""
+input DeleteRelationPrereqByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -140,8 +140,8 @@ input DeleteRelationPrerequisiteByIdInput {
   id: Int!
 }
 
-"""All input for the `deleteRelationPrerequisite` mutation."""
-input DeleteRelationPrerequisiteInput {
+"""All input for the `deleteRelationPrereq` mutation."""
+input DeleteRelationPrereqInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -149,39 +149,39 @@ input DeleteRelationPrerequisiteInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `RelationPrerequisite` to be deleted.
+  The globally unique `ID` which will identify a single `RelationPrereq` to be deleted.
   """
   nodeId: ID!
 }
 
-"""The output of our delete `RelationPrerequisite` mutation."""
-type DeleteRelationPrerequisitePayload {
+"""The output of our delete `RelationPrereq` mutation."""
+type DeleteRelationPrereqPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `RelationPrerequisite` that was deleted by this mutation."""
-  relationPrerequisite: RelationPrerequisite
-  deletedRelationPrerequisiteId: ID
+  """The `RelationPrereq` that was deleted by this mutation."""
+  relationPrereq: RelationPrereq
+  deletedRelationPrereqId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
   taskByTaskId: Task
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
-  taskByPrerequisiteTaskId: Task
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
+  taskByPrereqTaskId: Task
 
-  """An edge for our `RelationPrerequisite`. May be used by Relay 1."""
-  relationPrerequisiteEdge(
-    """The method to use when ordering `RelationPrerequisite`."""
-    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RelationPrerequisitesEdge
+  """An edge for our `RelationPrereq`. May be used by Relay 1."""
+  relationPrereqEdge(
+    """The method to use when ordering `RelationPrereq`."""
+    orderBy: [RelationPrereqsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationPrereqsEdge
 }
 
 """All input for the `deleteRelationSubtaskById` mutation."""
@@ -290,13 +290,13 @@ type DeleteTaskPayload {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  """Creates a single `RelationPrerequisite`."""
-  createRelationPrerequisite(
+  """Creates a single `RelationPrereq`."""
+  createRelationPrereq(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateRelationPrerequisiteInput!
-  ): CreateRelationPrerequisitePayload
+    input: CreateRelationPrereqInput!
+  ): CreateRelationPrereqPayload
 
   """Creates a single `RelationSubtask`."""
   createRelationSubtask(
@@ -315,24 +315,22 @@ type Mutation {
   ): CreateTaskPayload
 
   """
-  Updates a single `RelationPrerequisite` using its globally unique id and a patch.
+  Updates a single `RelationPrereq` using its globally unique id and a patch.
   """
-  updateRelationPrerequisite(
+  updateRelationPrereq(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateRelationPrerequisiteInput!
-  ): UpdateRelationPrerequisitePayload
+    input: UpdateRelationPrereqInput!
+  ): UpdateRelationPrereqPayload
 
-  """
-  Updates a single `RelationPrerequisite` using a unique key and a patch.
-  """
-  updateRelationPrerequisiteById(
+  """Updates a single `RelationPrereq` using a unique key and a patch."""
+  updateRelationPrereqById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateRelationPrerequisiteByIdInput!
-  ): UpdateRelationPrerequisitePayload
+    input: UpdateRelationPrereqByIdInput!
+  ): UpdateRelationPrereqPayload
 
   """
   Updates a single `RelationSubtask` using its globally unique id and a patch.
@@ -368,21 +366,21 @@ type Mutation {
     input: UpdateTaskByIdInput!
   ): UpdateTaskPayload
 
-  """Deletes a single `RelationPrerequisite` using its globally unique id."""
-  deleteRelationPrerequisite(
+  """Deletes a single `RelationPrereq` using its globally unique id."""
+  deleteRelationPrereq(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRelationPrerequisiteInput!
-  ): DeleteRelationPrerequisitePayload
+    input: DeleteRelationPrereqInput!
+  ): DeleteRelationPrereqPayload
 
-  """Deletes a single `RelationPrerequisite` using a unique key."""
-  deleteRelationPrerequisiteById(
+  """Deletes a single `RelationPrereq` using a unique key."""
+  deleteRelationPrereqById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteRelationPrerequisiteByIdInput!
-  ): DeleteRelationPrerequisitePayload
+    input: DeleteRelationPrereqByIdInput!
+  ): DeleteRelationPrereqPayload
 
   """Deletes a single `RelationSubtask` using its globally unique id."""
   deleteRelationSubtask(
@@ -459,8 +457,8 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
-  """Reads and enables pagination through a set of `RelationPrerequisite`."""
-  allRelationPrerequisites(
+  """Reads and enables pagination through a set of `RelationPrereq`."""
+  allRelationPrereqs(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -479,14 +477,14 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `RelationPrerequisite`."""
-    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `RelationPrereq`."""
+    orderBy: [RelationPrereqsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RelationPrerequisiteCondition
-  ): RelationPrerequisitesConnection
+    condition: RelationPrereqCondition
+  ): RelationPrereqsConnection
 
   """Reads and enables pagination through a set of `RelationSubtask`."""
   allRelationSubtasks(
@@ -545,17 +543,17 @@ type Query implements Node {
     """
     condition: TaskCondition
   ): TasksConnection
-  relationPrerequisiteById(id: Int!): RelationPrerequisite
+  relationPrereqById(id: Int!): RelationPrereq
   relationSubtaskById(id: Int!): RelationSubtask
   taskById(id: Int!): Task
 
-  """Reads a single `RelationPrerequisite` using its globally unique `ID`."""
-  relationPrerequisite(
+  """Reads a single `RelationPrereq` using its globally unique `ID`."""
+  relationPrereq(
     """
-    The globally unique `ID` to be used in selecting a single `RelationPrerequisite`.
+    The globally unique `ID` to be used in selecting a single `RelationPrereq`.
     """
     nodeId: ID!
-  ): RelationPrerequisite
+  ): RelationPrereq
 
   """Reads a single `RelationSubtask` using its globally unique `ID`."""
   relationSubtask(
@@ -572,37 +570,37 @@ type Query implements Node {
   ): Task
 }
 
-type RelationPrerequisite implements Node {
+type RelationPrereq implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
   id: Int!
   taskId: Int!
-  prerequisiteTaskId: Int!
+  prereqTaskId: Int!
   createdAt: Datetime!
   updatedAt: Datetime!
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
   taskByTaskId: Task
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
-  taskByPrerequisiteTaskId: Task
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
+  taskByPrereqTaskId: Task
 }
 
 """
-A condition to be used against `RelationPrerequisite` object types. All fields
-are tested for equality and combined with a logical ‘and.’
+A condition to be used against `RelationPrereq` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input RelationPrerequisiteCondition {
+input RelationPrereqCondition {
   """Checks for equality with the object’s `id` field."""
   id: Int
 
   """Checks for equality with the object’s `taskId` field."""
   taskId: Int
 
-  """Checks for equality with the object’s `prerequisiteTaskId` field."""
-  prerequisiteTaskId: Int
+  """Checks for equality with the object’s `prereqTaskId` field."""
+  prereqTaskId: Int
 
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
@@ -611,63 +609,61 @@ input RelationPrerequisiteCondition {
   updatedAt: Datetime
 }
 
-"""An input for mutations affecting `RelationPrerequisite`"""
-input RelationPrerequisiteInput {
+"""An input for mutations affecting `RelationPrereq`"""
+input RelationPrereqInput {
   id: Int
   taskId: Int!
-  prerequisiteTaskId: Int!
+  prereqTaskId: Int!
   createdAt: Datetime
   updatedAt: Datetime
 }
 
 """
-Represents an update to a `RelationPrerequisite`. Fields that are set will be updated.
+Represents an update to a `RelationPrereq`. Fields that are set will be updated.
 """
-input RelationPrerequisitePatch {
+input RelationPrereqPatch {
   id: Int
   taskId: Int
-  prerequisiteTaskId: Int
+  prereqTaskId: Int
   createdAt: Datetime
   updatedAt: Datetime
 }
 
-"""A connection to a list of `RelationPrerequisite` values."""
-type RelationPrerequisitesConnection {
-  """A list of `RelationPrerequisite` objects."""
-  nodes: [RelationPrerequisite]!
+"""A connection to a list of `RelationPrereq` values."""
+type RelationPrereqsConnection {
+  """A list of `RelationPrereq` objects."""
+  nodes: [RelationPrereq]!
 
   """
-  A list of edges which contains the `RelationPrerequisite` and cursor to aid in pagination.
+  A list of edges which contains the `RelationPrereq` and cursor to aid in pagination.
   """
-  edges: [RelationPrerequisitesEdge!]!
+  edges: [RelationPrereqsEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """
-  The count of *all* `RelationPrerequisite` you could get from the connection.
-  """
+  """The count of *all* `RelationPrereq` you could get from the connection."""
   totalCount: Int!
 }
 
-"""A `RelationPrerequisite` edge in the connection."""
-type RelationPrerequisitesEdge {
+"""A `RelationPrereq` edge in the connection."""
+type RelationPrereqsEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `RelationPrerequisite` at the end of the edge."""
-  node: RelationPrerequisite
+  """The `RelationPrereq` at the end of the edge."""
+  node: RelationPrereq
 }
 
-"""Methods to use when ordering `RelationPrerequisite`."""
-enum RelationPrerequisitesOrderBy {
+"""Methods to use when ordering `RelationPrereq`."""
+enum RelationPrereqsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
   TASK_ID_ASC
   TASK_ID_DESC
-  PREREQUISITE_TASK_ID_ASC
-  PREREQUISITE_TASK_ID_DESC
+  PREREQ_TASK_ID_ASC
+  PREREQ_TASK_ID_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
@@ -787,6 +783,7 @@ type Task implements Node {
   nodeId: ID!
   id: Int!
   toDo: String!
+  status: TaskStatus!
   createdAt: Datetime!
   updatedAt: Datetime!
 
@@ -848,8 +845,8 @@ type Task implements Node {
     condition: RelationSubtaskCondition
   ): RelationSubtasksConnection!
 
-  """Reads and enables pagination through a set of `RelationPrerequisite`."""
-  prerequisites(
+  """Reads and enables pagination through a set of `RelationPrereq`."""
+  prereqs(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -868,17 +865,17 @@ type Task implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `RelationPrerequisite`."""
-    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `RelationPrereq`."""
+    orderBy: [RelationPrereqsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RelationPrerequisiteCondition
-  ): RelationPrerequisitesConnection!
+    condition: RelationPrereqCondition
+  ): RelationPrereqsConnection!
 
-  """Reads and enables pagination through a set of `RelationPrerequisite`."""
-  prerequisiteOf(
+  """Reads and enables pagination through a set of `RelationPrereq`."""
+  prereqOf(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -897,14 +894,18 @@ type Task implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `RelationPrerequisite`."""
-    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `RelationPrereq`."""
+    orderBy: [RelationPrereqsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: RelationPrerequisiteCondition
-  ): RelationPrerequisitesConnection!
+    condition: RelationPrereqCondition
+  ): RelationPrereqsConnection!
+  hasPrereqs: String
+  hasSubtasks: String
+  isPrereq: String
+  isSubtask: String
 }
 
 """
@@ -917,6 +918,9 @@ input TaskCondition {
   """Checks for equality with the object’s `toDo` field."""
   toDo: String
 
+  """Checks for equality with the object’s `status` field."""
+  status: TaskStatus
+
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
 
@@ -928,6 +932,7 @@ input TaskCondition {
 input TaskInput {
   id: Int
   toDo: String!
+  status: TaskStatus
   createdAt: Datetime
   updatedAt: Datetime
 }
@@ -936,6 +941,7 @@ input TaskInput {
 input TaskPatch {
   id: Int
   toDo: String
+  status: TaskStatus
   createdAt: Datetime
   updatedAt: Datetime
 }
@@ -973,6 +979,8 @@ enum TasksOrderBy {
   ID_DESC
   TO_DO_ASC
   TO_DO_DESC
+  STATUS_ASC
+  STATUS_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
@@ -981,8 +989,15 @@ enum TasksOrderBy {
   PRIMARY_KEY_DESC
 }
 
-"""All input for the `updateRelationPrerequisiteById` mutation."""
-input UpdateRelationPrerequisiteByIdInput {
+enum TaskStatus {
+  TODO
+  BLOCKED
+  IN_PROGRESS
+  DONE
+}
+
+"""All input for the `updateRelationPrereqById` mutation."""
+input UpdateRelationPrereqByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -990,14 +1005,14 @@ input UpdateRelationPrerequisiteByIdInput {
   clientMutationId: String
 
   """
-  An object where the defined keys will be set on the `RelationPrerequisite` being updated.
+  An object where the defined keys will be set on the `RelationPrereq` being updated.
   """
-  relationPrerequisitePatch: RelationPrerequisitePatch!
+  relationPrereqPatch: RelationPrereqPatch!
   id: Int!
 }
 
-"""All input for the `updateRelationPrerequisite` mutation."""
-input UpdateRelationPrerequisiteInput {
+"""All input for the `updateRelationPrereq` mutation."""
+input UpdateRelationPrereqInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1005,43 +1020,43 @@ input UpdateRelationPrerequisiteInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `RelationPrerequisite` to be updated.
+  The globally unique `ID` which will identify a single `RelationPrereq` to be updated.
   """
   nodeId: ID!
 
   """
-  An object where the defined keys will be set on the `RelationPrerequisite` being updated.
+  An object where the defined keys will be set on the `RelationPrereq` being updated.
   """
-  relationPrerequisitePatch: RelationPrerequisitePatch!
+  relationPrereqPatch: RelationPrereqPatch!
 }
 
-"""The output of our update `RelationPrerequisite` mutation."""
-type UpdateRelationPrerequisitePayload {
+"""The output of our update `RelationPrereq` mutation."""
+type UpdateRelationPrereqPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `RelationPrerequisite` that was updated by this mutation."""
-  relationPrerequisite: RelationPrerequisite
+  """The `RelationPrereq` that was updated by this mutation."""
+  relationPrereq: RelationPrereq
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
   taskByTaskId: Task
 
-  """Reads a single `Task` that is related to this `RelationPrerequisite`."""
-  taskByPrerequisiteTaskId: Task
+  """Reads a single `Task` that is related to this `RelationPrereq`."""
+  taskByPrereqTaskId: Task
 
-  """An edge for our `RelationPrerequisite`. May be used by Relay 1."""
-  relationPrerequisiteEdge(
-    """The method to use when ordering `RelationPrerequisite`."""
-    orderBy: [RelationPrerequisitesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RelationPrerequisitesEdge
+  """An edge for our `RelationPrereq`. May be used by Relay 1."""
+  relationPrereqEdge(
+    """The method to use when ordering `RelationPrereq`."""
+    orderBy: [RelationPrereqsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RelationPrereqsEdge
 }
 
 """All input for the `updateRelationSubtaskById` mutation."""
