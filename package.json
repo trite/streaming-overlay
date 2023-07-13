@@ -25,6 +25,8 @@
     "relay-runtime": "^15.0.0"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.2",
+    "@types/marked": "^5.0.0",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/react-relay": "^14.1.4",
