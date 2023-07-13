@@ -4,6 +4,141 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+type ActiveMarkdownChunk implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  chunkName: String!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """
+  Reads a single `MarkdownChunk` that is related to this `ActiveMarkdownChunk`.
+  """
+  markdownChunkByChunkName: MarkdownChunk
+}
+
+"""
+A condition to be used against `ActiveMarkdownChunk` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input ActiveMarkdownChunkCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `chunkName` field."""
+  chunkName: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""An input for mutations affecting `ActiveMarkdownChunk`"""
+input ActiveMarkdownChunkInput {
+  id: Int
+  chunkName: String!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""
+Represents an update to a `ActiveMarkdownChunk`. Fields that are set will be updated.
+"""
+input ActiveMarkdownChunkPatch {
+  id: Int
+  chunkName: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""A connection to a list of `ActiveMarkdownChunk` values."""
+type ActiveMarkdownChunksConnection {
+  """A list of `ActiveMarkdownChunk` objects."""
+  nodes: [ActiveMarkdownChunk]!
+
+  """
+  A list of edges which contains the `ActiveMarkdownChunk` and cursor to aid in pagination.
+  """
+  edges: [ActiveMarkdownChunksEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ActiveMarkdownChunk` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""A `ActiveMarkdownChunk` edge in the connection."""
+type ActiveMarkdownChunksEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ActiveMarkdownChunk` at the end of the edge."""
+  node: ActiveMarkdownChunk
+}
+
+"""Methods to use when ordering `ActiveMarkdownChunk`."""
+enum ActiveMarkdownChunksOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CHUNK_NAME_ASC
+  CHUNK_NAME_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the create `ActiveMarkdownChunk` mutation."""
+input CreateActiveMarkdownChunkInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ActiveMarkdownChunk` to be created by this mutation."""
+  activeMarkdownChunk: ActiveMarkdownChunkInput!
+}
+
+"""The output of our create `ActiveMarkdownChunk` mutation."""
+type CreateActiveMarkdownChunkPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ActiveMarkdownChunk` that was created by this mutation."""
+  activeMarkdownChunk: ActiveMarkdownChunk
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `MarkdownChunk` that is related to this `ActiveMarkdownChunk`.
+  """
+  markdownChunkByChunkName: MarkdownChunk
+
+  """An edge for our `ActiveMarkdownChunk`. May be used by Relay 1."""
+  activeMarkdownChunkEdge(
+    """The method to use when ordering `ActiveMarkdownChunk`."""
+    orderBy: [ActiveMarkdownChunksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ActiveMarkdownChunksEdge
+}
+
 """All input for the create `MarkdownChunk` mutation."""
 input CreateMarkdownChunkInput {
   """
@@ -47,6 +182,59 @@ A point in time as described by the [ISO
 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
 """
 scalar Datetime
+
+"""All input for the `deleteActiveMarkdownChunkById` mutation."""
+input DeleteActiveMarkdownChunkByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteActiveMarkdownChunk` mutation."""
+input DeleteActiveMarkdownChunkInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ActiveMarkdownChunk` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `ActiveMarkdownChunk` mutation."""
+type DeleteActiveMarkdownChunkPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ActiveMarkdownChunk` that was deleted by this mutation."""
+  activeMarkdownChunk: ActiveMarkdownChunk
+  deletedActiveMarkdownChunkId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `MarkdownChunk` that is related to this `ActiveMarkdownChunk`.
+  """
+  markdownChunkByChunkName: MarkdownChunk
+
+  """An edge for our `ActiveMarkdownChunk`. May be used by Relay 1."""
+  activeMarkdownChunkEdge(
+    """The method to use when ordering `ActiveMarkdownChunk`."""
+    orderBy: [ActiveMarkdownChunksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ActiveMarkdownChunksEdge
+}
 
 """All input for the `deleteMarkdownChunkByChunkName` mutation."""
 input DeleteMarkdownChunkByChunkNameInput {
@@ -116,6 +304,35 @@ type MarkdownChunk implements Node {
   markdown: String!
   createdAt: Datetime!
   updatedAt: Datetime!
+
+  """Reads and enables pagination through a set of `ActiveMarkdownChunk`."""
+  activeMarkdownChunksByChunkName(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ActiveMarkdownChunk`."""
+    orderBy: [ActiveMarkdownChunksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ActiveMarkdownChunkCondition
+  ): ActiveMarkdownChunksConnection!
 }
 
 """
@@ -206,6 +423,14 @@ enum MarkdownChunksOrderBy {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
+  """Creates a single `ActiveMarkdownChunk`."""
+  createActiveMarkdownChunk(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateActiveMarkdownChunkInput!
+  ): CreateActiveMarkdownChunkPayload
+
   """Creates a single `MarkdownChunk`."""
   createMarkdownChunk(
     """
@@ -213,6 +438,24 @@ type Mutation {
     """
     input: CreateMarkdownChunkInput!
   ): CreateMarkdownChunkPayload
+
+  """
+  Updates a single `ActiveMarkdownChunk` using its globally unique id and a patch.
+  """
+  updateActiveMarkdownChunk(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateActiveMarkdownChunkInput!
+  ): UpdateActiveMarkdownChunkPayload
+
+  """Updates a single `ActiveMarkdownChunk` using a unique key and a patch."""
+  updateActiveMarkdownChunkById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateActiveMarkdownChunkByIdInput!
+  ): UpdateActiveMarkdownChunkPayload
 
   """
   Updates a single `MarkdownChunk` using its globally unique id and a patch.
@@ -239,6 +482,22 @@ type Mutation {
     """
     input: UpdateMarkdownChunkByChunkNameInput!
   ): UpdateMarkdownChunkPayload
+
+  """Deletes a single `ActiveMarkdownChunk` using its globally unique id."""
+  deleteActiveMarkdownChunk(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteActiveMarkdownChunkInput!
+  ): DeleteActiveMarkdownChunkPayload
+
+  """Deletes a single `ActiveMarkdownChunk` using a unique key."""
+  deleteActiveMarkdownChunkById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteActiveMarkdownChunkByIdInput!
+  ): DeleteActiveMarkdownChunkPayload
 
   """Deletes a single `MarkdownChunk` using its globally unique id."""
   deleteMarkdownChunk(
@@ -307,6 +566,35 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
+  """Reads and enables pagination through a set of `ActiveMarkdownChunk`."""
+  allActiveMarkdownChunks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ActiveMarkdownChunk`."""
+    orderBy: [ActiveMarkdownChunksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ActiveMarkdownChunkCondition
+  ): ActiveMarkdownChunksConnection
+
   """Reads and enables pagination through a set of `MarkdownChunk`."""
   allMarkdownChunks(
     """Only read the first `n` values of the set."""
@@ -335,8 +623,17 @@ type Query implements Node {
     """
     condition: MarkdownChunkCondition
   ): MarkdownChunksConnection
+  activeMarkdownChunkById(id: Int!): ActiveMarkdownChunk
   markdownChunkById(id: Int!): MarkdownChunk
   markdownChunkByChunkName(chunkName: String!): MarkdownChunk
+
+  """Reads a single `ActiveMarkdownChunk` using its globally unique `ID`."""
+  activeMarkdownChunk(
+    """
+    The globally unique `ID` to be used in selecting a single `ActiveMarkdownChunk`.
+    """
+    nodeId: ID!
+  ): ActiveMarkdownChunk
 
   """Reads a single `MarkdownChunk` using its globally unique `ID`."""
   markdownChunk(
@@ -345,6 +642,68 @@ type Query implements Node {
     """
     nodeId: ID!
   ): MarkdownChunk
+}
+
+"""All input for the `updateActiveMarkdownChunkById` mutation."""
+input UpdateActiveMarkdownChunkByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ActiveMarkdownChunk` being updated.
+  """
+  activeMarkdownChunkPatch: ActiveMarkdownChunkPatch!
+  id: Int!
+}
+
+"""All input for the `updateActiveMarkdownChunk` mutation."""
+input UpdateActiveMarkdownChunkInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ActiveMarkdownChunk` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `ActiveMarkdownChunk` being updated.
+  """
+  activeMarkdownChunkPatch: ActiveMarkdownChunkPatch!
+}
+
+"""The output of our update `ActiveMarkdownChunk` mutation."""
+type UpdateActiveMarkdownChunkPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ActiveMarkdownChunk` that was updated by this mutation."""
+  activeMarkdownChunk: ActiveMarkdownChunk
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `MarkdownChunk` that is related to this `ActiveMarkdownChunk`.
+  """
+  markdownChunkByChunkName: MarkdownChunk
+
+  """An edge for our `ActiveMarkdownChunk`. May be used by Relay 1."""
+  activeMarkdownChunkEdge(
+    """The method to use when ordering `ActiveMarkdownChunk`."""
+    orderBy: [ActiveMarkdownChunksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ActiveMarkdownChunksEdge
 }
 
 """All input for the `updateMarkdownChunkByChunkName` mutation."""

@@ -23,6 +23,17 @@ CREATE TRIGGER markdown_chunk_trigger_updated_at
    FOR EACH ROW
    EXECUTE PROCEDURE trigger_updated_at();
 
+CREATE TABLE IF NOT EXISTS public.active_markdown_chunk(
+  id SERIAL PRIMARY KEY,
+  chunk_name TEXT NOT NULL REFERENCES public.markdown_chunk(chunk_name),
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TRIGGER active_markdown_chunk_trigger_updated_at
+   BEFORE UPDATE ON public.active_markdown_chunk
+   FOR EACH ROW
+   EXECUTE PROCEDURE trigger_updated_at();
 
 
 

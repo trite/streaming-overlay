@@ -14,6 +14,9 @@ VALUES
   The world clearly needs more todo/calendar/notes apps, so here''s another!');
 
 
+INSERT INTO public.active_markdown_chunk(chunk_name)
+VALUES
+  ('stream-overlay');
 
 
 
