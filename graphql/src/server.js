@@ -5,7 +5,12 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+const corsOpts = {
+  origin: '*',
+};
+
+app.use(cors(corsOpts));
+app.options('*', cors(corsOpts));
 
 app.use(
     postgraphile(process.env.DATABASE_URL, "public", {
