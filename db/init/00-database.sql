@@ -2,6 +2,62 @@
 
 SET client_encoding = 'LATIN1';
 
+-- create function public.graphql_subscription() returns trigger as $$
+-- declare
+--   v_process_new bool = (TG_OP = 'INSERT' OR TG_OP = 'UPDATE');
+--   v_process_old bool = (TG_OP = 'UPDATE' OR TG_OP = 'DELETE');
+--   v_event text = TG_ARGV[0];
+--   v_topic_template text = TG_ARGV[1];
+--   v_attribute text = TG_ARGV[2];
+--   v_record record;
+--   v_sub text;
+--   v_topic text;
+--   v_i int = 0;
+--   v_last_topic text;
+-- begin
+--   -- On UPDATE sometimes topic may be changed for NEW record,
+--   -- so we need notify to both topics NEW and OLD.
+--   for v_i in 0..1 loop
+--     if (v_i = 0) and v_process_new is true then
+--       v_record = new;
+--     elsif (v_i = 1) and v_process_old is true then
+--       v_record = old;
+--     else
+--       continue;
+--     end if;
+--      if v_attribute is not null then
+--       execute 'select $1.' || quote_ident(v_attribute)
+--         using v_record
+--         into v_sub;
+--     end if;
+--     if v_sub is not null then
+--       v_topic = replace(v_topic_template, '$1', v_sub);
+--     else
+--       v_topic = v_topic_template;
+--     end if;
+--     if v_topic is distinct from v_last_topic then
+--       -- This if statement prevents us from triggering the same notification twice
+--       v_last_topic = v_topic;
+--       SELECT pg_notify(
+--         v_topic,
+--         json_build_object(
+--           '__node__', json_build_array(
+--             'allMarkdownChunks', -- IMPORTANT: this is not always exactly the table name; base64
+--                     -- decode an existing nodeId to see what it should be.
+--             1      -- The primary key (for multiple keys, list them all).
+--           ) 
+--         )
+--       )
+--       -- perform pg_notify(v_topic, json_build_object(
+--       --   'event', v_event,
+--       --   'subject', v_sub
+--       -- )::text);
+--     end if;
+--   end loop;
+--   return v_record;
+-- end;
+-- $$ language plpgsql volatile set search_path from current;
+
 CREATE OR REPLACE FUNCTION trigger_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -36,7 +92,83 @@ CREATE TRIGGER active_markdown_chunk_trigger_updated_at
    EXECUTE PROCEDURE trigger_updated_at();
 
 
+-- CREATE TRIGGER subscribe_markdown_chunk
+--   AFTER UPDATE ON public.markdown_chunk
+--   FOR EACH ROW
+--   EXECUTE PROCEDURE public.graphql_subscription(
+--     'allMarkdownChunks', -- the "event" string, useful for the client to know what happened
+--     'postgraphile:markdownChunk:$1' -- the "topic" the event will be published to, as a template
+--     -- 'postgraphile:chunkChanged:$1', -- the "topic" the event will be published to, as a template
+--     'id' -- If specified, `$1` above will be replaced with NEW.id or OLD.id from the trigger.
+--   );
 
+CREATE OR REPLACE FUNCTION public.notify_any_markdown_chunk_changed()
+RETURNS TRIGGER AS $$
+-- DECLARE
+--   something_name_later TEXT;
+BEGIN
+  -- SELECT 1
+  -- FROM public.active_markdown_chunk amc
+  -- WHERE amc.chunk_name = NEW.chunk_name
+  -- INTO something_name_later;
+
+  PERFORM pg_notify(
+    'postgraphile:currentMarkdownChunkChanged',
+    json_build_object(
+      '__node__',
+      json_build_array(
+        'allMarkdownChunks',
+        NEW.id
+      )
+    )::TEXT
+  );
+
+  RETURN NEW;
+END;
+
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER subscribe_markdown_chunk
+  AFTER INSERT OR UPDATE ON public.markdown_chunk
+  FOR EACH ROW
+  EXECUTE FUNCTION public.notify_any_markdown_chunk_changed();
+
+  -- SELECT 1
+  -- FROM public.active_markdown_chunk amc
+  -- WHERE amc.chunk_name = NEW.chunk_name
+  -- INTO something_name_later;
+
+  -- IF something_name_later IS NOT NULL THEN
+  --   SELECT pg_notify(
+  --     'postgraphile:currentMarkdownChunkChanged',
+  --     json_build_object(
+  --       '__node__',
+  --       json_build_array(
+  --         'markdownChunk'
+  --       )
+  --     )
+  --   );
+  -- END IF;
+
+
+
+
+  
+  
+  
+  
+  -- public.graphql_subscription(
+  --   'allMarkdownChunks', -- the "event" string, useful for the client to know what happened
+  --   'postgraphile:markdownChunk:$1' -- the "topic" the event will be published to, as a template
+  --   -- 'postgraphile:chunkChanged:$1', -- the "topic" the event will be published to, as a template
+  --   'id' -- If specified, `$1` above will be replaced with NEW.id or OLD.id from the trigger.
+  -- );
+
+-- CREATE TRIGGER _500_gql_update_member
+--   AFTER INSERT OR UPDATE OR DELETE ON app_public.organization_members
+--   FOR EACH ROW
+--   EXECUTE PROCEDURE app_public.graphql_subscription('organizationsChanged', 'graphql:user:$1', 'member_id');
 
 
 

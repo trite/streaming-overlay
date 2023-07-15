@@ -1,7 +1,9 @@
 const http = require("http");
 const express = require("express");
-const { postgraphile } = require("postgraphile");
+const { postgraphile, makePluginHook } = require("postgraphile");
 const cors = require("cors");
+
+const { default: PgPubsub } = require("@graphile/pg-pubsub");
 
 const app = express();
 
@@ -12,12 +14,17 @@ const corsOpts = {
 app.use(cors(corsOpts));
 app.options('*', cors(corsOpts));
 
+const pluginHook = makePluginHook([PgPubsub]);
+
 app.use(
     postgraphile(process.env.DATABASE_URL, "public", {
+      pluginHook,
       watchPg: true,
       graphiql: true,
       enhanceGraphiql: true,
       retryOnInitFail: true,
+      subscriptions: true,
+      simpleSubscriptions: true, // Add the `listen` subscription field
     })
 );
 
