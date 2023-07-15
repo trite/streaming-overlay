@@ -30,7 +30,7 @@ services:
     networks:
       - network
     ports:
-      - 6433:5433
+      - 6433:6433
     expose:
       - 6433
 
