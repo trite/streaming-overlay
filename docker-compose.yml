@@ -1,41 +1,41 @@
 version: '3.3'
 services:
-  db:
-    container_name: db
+  streamingdb:
+    container_name: streamingdb
     restart: always
-    image: db
+    image: streamingdb
     build:
       context: ./db
     volumes:
-      - db:/var/lib/postgresql/data
+      - streamingdb:/var/lib/postgresql/data
     env_file:
       - ./.env
     networks:
       - network
     ports:
-      - 5432:5432
+      - 6432:6432
     expose:
-      - 5432
+      - 6432
 
-  graphql:
-    container_name: graphql
+  streaminggraphql:
+    container_name: streaminggraphql
     restart: always
-    image: us-west2-docker.pkg.dev/sinuous-ally-391423/org-app-docker-repo/graphql:latest
+    image: streaminggraphql
     build:
       context: ./graphql
     env_file:
       - ./.env
     depends_on:
-      - db
+      - streamingdb
     networks:
       - network
     ports:
-      - 5433:5433
+      - 6433:5433
     expose:
-      - 5433
+      - 6433
 
 networks:
   network:
 
 volumes:
-  db:
+  streamingdb:
